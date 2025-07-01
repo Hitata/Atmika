@@ -1,90 +1,84 @@
-import { useEffect, useRef, useState } from "react";
-import { parseTime, getIntent } from "../utils/dateUtils";
+import { useEffect, useState } from "react";
+import { parseTime, getIntent, toLocalISOString } from "../utils/dateUtils";
+import useSpeech from "../hooks/useSpeech";
 
 export default function TaskInput({ onAdd }) {
-  /* --- State --- */
   const [pendingText, setPendingText] = useState("");
-  const [listening, setListening] = useState(false);
   const [status, setStatus] = useState("🎤 Nhấn để nói hoặc nhập task");
   const [confirmed, setConfirmed] = useState(false);
-  const recognitionRef = useRef(null);
 
-  /* --- Khởi tạo Web Speech Recognition --- */
+  const {
+    transcript,
+    listening,
+    error,
+    start,
+    stop,
+    resetTranscript,
+  } = useSpeech();
+
   useEffect(() => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      setStatus("Trình duyệt không hỗ trợ Web Speech API");
-      return;
-    }
-
-    const recog = new SpeechRecognition();
-    recog.lang = "vi-VN";
-    recog.interimResults = false;
-    recog.maxAlternatives = 1;
-    recognitionRef.current = recog;
-
-    recog.onstart = () => setStatus("🎧 Đang nghe...");
-    recog.onerror = (e) => {
-      setStatus("Lỗi: " + e.error);
-      setListening(false);
-    };
-    recog.onend = () => setListening(false);
-    recog.onresult = (e) => {
-      const text = e.results[0][0].transcript;
-      setPendingText(text);
+    if (transcript) {
+      setPendingText(transcript);
       setConfirmed(false);
-      console.log("📥 Nhận đầu vào:", text);
-    };
-  }, []);
+      setStatus("📝 Xác nhận task vừa nói");
+      console.log("📥 Nhận đầu vào:", transcript);
+    }
+  }, [transcript]);
 
-  /* --- Hành động --- */
+  useEffect(() => {
+    if (error) {
+      setStatus("Lỗi: " + error);
+    }
+  }, [error]);
+
   const handleListen = () => {
-    if (!recognitionRef.current) return;
+    resetTranscript(); // reset trước khi bắt đầu nghe
     setPendingText("");
-    setListening(true);
-    recognitionRef.current.start();
+    setStatus("🎧 Đang nghe...");
+    start();
   };
 
   const confirmTask = () => {
     const time = parseTime(pendingText);
     const intent = getIntent(pendingText);
     const newTask = {
-      id: Date.now(),
-      text: pendingText,
-      intent,
-      time,
-      createdAt: new Date().toISOString(),
+    id: Date.now(),
+    text: pendingText,
+    intent,
+    time: time ? toLocalISOString(time) : null,
+    createdAt: new Date().toISOString(), // vẫn dùng UTC cho createdAt
     };
     onAdd(newTask);
 
-    // Đọc lại để xác nhận
     const utter = new SpeechSynthesisUtterance(`Đã thêm: ${pendingText}`);
     utter.lang = "vi-VN";
     window.speechSynthesis.speak(utter);
 
     console.log("✅ Đã thêm task:", newTask);
     setPendingText("");
+    resetTranscript();
     setConfirmed(true);
     setStatus("✅ Task đã được lưu");
   };
 
-  /* --- UI --- */
   return (
     <div className="task-input-container">
       <div className="task-input-controls">
         <button
-          onClick={handleListen}
-          disabled={listening}
+          onClick={listening ? stop : handleListen}
           className="task-input-button"
         >
-          🎙 {listening ? "Đang nghe..." : "Nói task"}
+          {listening ? "🛑 Dừng" : "🎙 Nói task"}
         </button>
+
         <input
           type="text"
           placeholder="Hoặc nhập task..."
           value={pendingText}
-          onChange={(e) => setPendingText(e.target.value)}
+          onChange={(e) => {
+            setPendingText(e.target.value);
+            setConfirmed(false);
+          }}
           className="task-input-field"
         />
       </div>
@@ -93,14 +87,12 @@ export default function TaskInput({ onAdd }) {
 
       {pendingText && !confirmed && (
         <div className="task-input-preview">
+          <p>🗣 <strong>Bạn nói:</strong> {pendingText}</p>
           <p>
-            🗣 <strong>Bạn nói:</strong> {pendingText}
-          </p>
-          <p>
-            🏷 <strong>Tag:</strong> {getIntent(pendingText)}{" "}
+            🏷 <strong>Tag:</strong> {getIntent(pendingText)}
             {parseTime(pendingText) && (
               <>
-                | 🕒{" "}
+                {" "} | 🕒{" "}
                 <strong>{parseTime(pendingText).toLocaleString("vi-VN")}</strong>
               </>
             )}
@@ -110,7 +102,10 @@ export default function TaskInput({ onAdd }) {
               ✅ Xác nhận
             </button>
             <button
-              onClick={() => setPendingText("")}
+              onClick={() => {
+                setPendingText("");
+                resetTranscript();
+              }}
               className="task-input-cancel-btn"
             >
               ❌ Huỷ
