@@ -1,6 +1,6 @@
 import { formatISO, startOfToday } from "date-fns";
 
-export default function HabitList({ habits, onToggle }) {
+export default function HabitList({ habits, onToggle, onDelete }) {
   const today = formatISO(startOfToday(), { representation: "date" });
 
   return (
@@ -22,6 +22,13 @@ export default function HabitList({ habits, onToggle }) {
                 className={`habit-toggle-btn ${isTodayDone ? "done" : ""}`}
               >
                 {isTodayDone ? "✅ Đã làm" : "📅 Chưa làm"}
+              </button>
+
+              <button
+                onClick={() => onDelete(h.id)}
+                className="habit-delete-btn"
+              >
+                🗑
               </button>
             </li>
           );

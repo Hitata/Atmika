@@ -1,6 +1,6 @@
 import { formatSmartTime } from "../utils/dateUtils";
 
-export default function TaskItem({ task, onDelete }) {
+export default function TaskItem({ task, onDelete, onStartPomo }) {
   return (
     <li className="task-item">
       <button
@@ -19,6 +19,14 @@ export default function TaskItem({ task, onDelete }) {
           🕒 {formatSmartTime(new Date(task.time))}
         </span>
       )}
+
+      <button
+        onClick={() => onStartPomo(task)}
+        className="task-item-pomo"
+        title="Bắt đầu Pomodoro"
+      >
+        ▶ Pomodoro
+      </button>
     </li>
   );
 }

@@ -37,6 +37,120 @@
   }
 }
 
+/* Card container */
+
+
+/* Typography */
+.text-2xl {
+  font-size: 1.5rem;
+}
+.font-bold {
+  font-weight: 700;
+}
+.text-blue-700 {
+  color: #1e40af;
+}
+.text-green-700 {
+  color: #047857;
+}
+
+/* ==== HEADER giống Facebook ==== */
+.header {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  z-index: 50;
+}
+
+.header-inner {
+  max-width: 1024px;
+  margin: 0 auto;
+  height: 56px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo trái */
+.logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #1877f2; /* xanh Facebook */
+}
+
+/* Tabs phải */
+.nav-tabs {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: #606770; /* chữ xám Facebook */
+  text-decoration: none;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+
+.nav-tab:hover {
+  color: #1877f2;
+}
+
+.nav-tab.active {
+  color: #1877f2;
+  font-weight: 600;
+}
+
+/* gạch dưới tab active */
+.nav-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: #1877f2;
+}
+
+/* ==== CARD CONTAINER ==== */
+.container-card {
+  max-width: 640px;
+  margin: 2.5rem auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* titles */
+.title-blue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+.title-green {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #047857;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .p-6 {
+    padding: 1rem;
+  }
+
+  .text-2xl {
+    font-size: 1.25rem;
+  }
+}
 
 .task-input-container {
   display: flex;
@@ -55,7 +169,7 @@
     flex-direction: row;
   }
 }
-
+/* task-input */
 .task-input-button {
   background-color: #2563eb;
   color: white;
@@ -85,47 +199,61 @@
   border-color: #2563eb;
   box-shadow: 0 0 0 2px #93c5fd;
 }
-
+/*task-item*/
 .task-item {
-  position: relative;
-  background-color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   padding: 0.75rem;
-  border-radius: 0.75rem;
-  border: 1px solid #eee;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  transition: box-shadow 0.2s;
-}
-
-.task-item:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.task-item-delete {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  color: #ef4444;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.task-item-delete:hover {
-  color: #b91c1c;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .task-item-text {
-  font-size: 1.125rem;
+  flex-grow: 1;
   font-weight: 500;
-  color: #1f2937;
 }
 
-.task-item-tag,
+.task-item-tag {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
 .task-item-time {
-  font-size: 0.875rem;
-  color: #6b7280;
+  font-size: 0.85rem;
+  color: #4b5563;
 }
 
+.task-item-delete,
+.task-item-pomo {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.task-item-delete {
+  background: #ef4444;
+}
+
+.task-item-delete:hover {
+  background: #dc2626;
+}
+
+.task-item-pomo:hover {
+  background: #1d4ed8;
+}
+
+/*task-list*/
 .task-list {
   display: flex;
   flex-direction: column;
@@ -138,7 +266,7 @@
   color: #1f2937;
   margin-top: 1rem;
 }
-
+/*habit*/
 .habit-input, .habit-list {
   margin-top: 1rem;
 }
@@ -157,4 +285,67 @@
 .habit-toggle-btn.done {
   background-color: #34d399;
   color: white;
+}
+/*PomodoroTimer*/
+.pomo-wrapper {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #f0fdf4;
+  border: 2px dashed #4ade80;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.pomo-task {
+  font-size: 1.25rem;
+  color: #065f46;
+  margin-bottom: 1rem;
+}
+
+.pomo-task span {
+  font-weight: bold;
+  color: #059669;
+}
+
+.pomo-time {
+  font-size: 5rem;
+  font-weight: 600;
+  color: #10b981;
+  margin: 1rem 0;
+}
+
+.pomo-btns button {
+  background: #ef4444;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.pomo-btns button:hover {
+  background: #dc2626;
+}
+
+.pomo-wrapper {
+  background: #f0fdf4;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 2px dashed #22c55e;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pomo-task {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.pomo-input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  border: 1px solid #ccc;
 }
