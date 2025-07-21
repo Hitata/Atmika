@@ -103,25 +103,29 @@
 }
 
 .nav-tab.active {
-  color: #1877f2;
-  font-weight: 600;
+  font-weight: bold;
+  color: #0056b3;
+  border-bottom: 3px solid #0056b3;
 }
 
-/* gạch dưới tab active */
-.nav-tab.active::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  border-radius: 2px;
-  background: #1877f2;
+.logout-button {
+  margin-left: auto;
+  padding: 8px 16px;
+  border: none;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-/* ==== CARD CONTAINER ==== */
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+/* ---------- CONTAINER ---------- */
 .container-card {
-  max-width: 640px;
+  max-width: 800px;
   margin: 2.5rem auto;
   padding: 1.5rem;
   background: #ffffff;
@@ -266,6 +270,69 @@
   color: #1f2937;
   margin-top: 1rem;
 }
+
+/* Habit Suggestion Dialog */
+.habit-suggestion-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.habit-suggestion-dialog {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
+
+.habit-suggestion-dialog h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.habit-suggestion-dialog p {
+  margin-bottom: 1.5rem;
+}
+
+.habit-suggestion-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.habit-suggestion-buttons button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.habit-suggestion-buttons button:hover {
+  transform: translateY(-2px);
+}
+
+.accept-btn {
+  background-color: #2563eb;
+  color: white;
+}
+
+.decline-btn {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
 /*habit*/
 .habit-input, .habit-list {
   margin-top: 1rem;
@@ -290,27 +357,27 @@
 .pomo-wrapper {
   text-align: center;
   padding: 2rem 1rem;
-  background: #f0fdf4;
-  border: 2px dashed #4ade80;
+  background: #f5f3ff; /* Light purple background */
+  border: 2px dashed #8b5cf6; /* Dashed purple border */
   border-radius: 1rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .pomo-task {
   font-size: 1.25rem;
-  color: #065f46;
+  color: #5b21b6; /* Darker purple for task text */
   margin-bottom: 1rem;
 }
 
 .pomo-task span {
   font-weight: bold;
-  color: #059669;
+  color: #7c3aed; /* Vibrant purple for task name */
 }
 
 .pomo-time {
   font-size: 5rem;
   font-weight: 600;
-  color: #10b981;
+  color: #8b5cf6; /* Main purple for the timer */
   margin: 1rem 0;
 }
 
@@ -329,10 +396,10 @@
 }
 
 .pomo-wrapper {
-  background: #f0fdf4;
+  background: #f5f3ff; /* Light purple background */
   padding: 1.5rem;
   border-radius: 1rem;
-  border: 2px dashed #22c55e;
+  border: 2px dashed #8b5cf6; /* Dashed purple border */
   margin-top: 2rem;
   text-align: center;
 }
@@ -340,7 +407,7 @@
 .pomo-task {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #15803d;
+  color: #6d28d9; /* Vibrant purple for task text */
 }
 
 .pomo-input {

@@ -10,15 +10,16 @@ const normalize = (s = "") =>
    .trim();
 
 
-export function detectHabitsFromTasks(tasks, existingHabits) {
+export function detectHabitsFromTasks(tasks, existingHabits, declinedHabits = []) {
   const dateMap = new Map(); // key → Set<YYYY‑MM‑DD>
+  const declinedSet = new Set(declinedHabits.map(normalize));
 
   for (const t of tasks) {
     const raw = t.intent && t.intent.toLowerCase() !== "khác" ? t.intent : t.text;
     const key = normalize(raw);
 
-    // loại bỏ text rỗng, “khac”, <3 ký tự
-    if (!key || key === "khac" || key.length < 3) continue;
+    // loại bỏ text rỗng, “khac”, <3 ký tự, hoặc đã bị từ chối
+    if (!key || key === "khac" || key.length < 3 || declinedSet.has(key)) continue;
 
     const day = formatISO(
       startOfDay(t.time ? new Date(t.time) : new Date(t.createdAt)),

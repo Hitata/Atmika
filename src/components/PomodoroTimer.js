@@ -64,7 +64,7 @@ export default function PomodoroTimer({ task, onCancel }) {
   /* ---------- UI ---------- */
   return (
     <div className="pomo-wrapper flex flex-col items-center gap-4">
-      <h2 className="pomo-task text-xl font-semibold text-green-700 text-center">
+      <h2 className="pomo-task text-xl font-semibold text-purple-700 text-center">
         {phase === "focus" ? "🎯 Tập trung" : phase === "rest" ? "🌤 Nghỉ ngắn" : "🌙 Nghỉ dài"}
         {phase === "focus" && <span>: {task.text}</span>}
       </h2>
@@ -88,7 +88,7 @@ export default function PomodoroTimer({ task, onCancel }) {
         </div>
       )}
 
-      <div className="pomo-time font-mono text-6xl font-bold text-green-600">
+      <div className="pomo-time font-mono text-6xl font-bold text-purple-600">
         {fmt(secondsLeft)}
       </div>
 
@@ -101,7 +101,7 @@ export default function PomodoroTimer({ task, onCancel }) {
               setSecondsLeft(preset.focus * 60);
               setIsRunning(true);
             }}
-            className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl"
+            className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl"
           >
             ▶️ Bắt đầu
           </button>
